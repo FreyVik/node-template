@@ -504,6 +504,82 @@ pnpm add -D @types/fastify
 
 ---
 
+## 🚀 Crear Proyecto Desde Cero (Templates)
+
+En 2026, hay comandos oficiales para crear proyectos con la configuración ya lista:
+
+### Frontend (React + TypeScript + Vite)
+
+```bash
+# Crear proyecto con template react-ts
+pnpm create vite@latest mi-proyecto -- --template react-ts
+
+# Entrar en la carpeta
+cd mi-proyecto
+
+# Instalar dependencias
+pnpm install
+
+# Arrancar servidor de desarrollo
+pnpm dev
+```
+
+**Qué incluye:**
+- React 19 + TypeScript
+- Vite configurado
+- tsconfig.json listo
+- Scripts: `dev`, `build`, `preview`
+- Soporte para JSX/TSX
+
+---
+
+### Backend (NestJS + TypeScript)
+
+```bash
+# Crear proyecto NestJS
+pnpx @nestjs/cli new mi-proyecto-backend
+
+# Entrar en la carpeta
+cd mi-proyecto-backend
+
+# Instalar dependencias
+pnpm install
+
+# Arrancar en modo desarrollo
+pnpm run start:dev
+```
+
+**Qué incluye:**
+- NestJS con TypeScript
+- Estructura de carpetas (modules, controllers, services)
+- TypeORM + configuración de DB (opcional)
+- Swagger/OpenAPI (opcional)
+- Scripts: `build`, `start`, `test`, `lint`
+
+---
+
+### Comparativa: Cuándo usar cada uno
+
+| Necesidad | Herramienta recomendada |
+|----------|----------------------|
+| SPA (Single Page Application) | **Vite + React** |
+| API REST tradicional | **NestJS** o **Fastify** |
+| API serverless/edge | **Hono** o **Vite** |
+| Microservicios | **NestJS** |
+| Proyecto rápido/simple | **Vite** (frontend) o **Fastify** (backend) |
+
+---
+
+### Resumen de Comandos
+
+| Tipo | Comando | Notas |
+|------|---------|-------|
+| Frontend SPA | `pnpm create vite@latest . -- --template react-ts` | React + TS + Vite |
+| Backend API | `pnpx @nestjs/cli new nombre` | NestJS + TypeScript |
+| Backend rápido | `pnpm add express` (manual) | Express básico |
+
+---
+
 ## 📝 Notas
 
 - Este template usa **pnpm** como gestor de paquetes (recomendado en 2026)
