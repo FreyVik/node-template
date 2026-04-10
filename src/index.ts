@@ -1,8 +1,12 @@
-console.log("¡Hola, TypeScript!");
+// Backend - Hello World
+console.log("Hello World from Backend!");
 
-function saludar(nombre: string): string {
-  return `Hola, ${nombre}!`;
-}
+const http = require('http');
+const server = http.createServer((req, res) => {
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
+  res.end('Hello World from Backend!');
+});
 
-const mensaje = saludar("Mundo");
-console.log(mensaje);
+server.listen(3000, () => {
+  console.log('Server running on http://localhost:3000');
+});
