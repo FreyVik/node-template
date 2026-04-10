@@ -1,0 +1,2 @@
+// Utilidades del proyecto
+export {};
