@@ -178,6 +178,6 @@ pnpm add zod
 ## 📌 Notas
 
 - Este proyecto usa **Vite** como build tool (más rápido que Webpack)
-- **Biome**代替 ESLint + Prettier (más rápido, todo en uno)
+- **Biome** ESLint + Prettier (más rápido, todo en uno)
 - Los tipos de TypeScript se verifican en tiempo de desarrollo
 - El código se compila automáticamente al hacer `pnpm build`
