@@ -156,6 +156,47 @@ import { User, someFunction } from './types';
 
 ---
 
+## Ramas del Proyecto
+
+| Rama | Propósito |
+|------|----------|
+| `master` | Template base |
+| `backend` | Ejemplo Node.js/Express |
+| `frontend` | Ejemplo React/Vanilla |
+
+### Cambiar de rama
+```bash
+git checkout backend   # Para backend
+git checkout frontend  # Para frontend
+git checkout master  # Volver a base
+```
+
+### Push a GitHub
+```bash
+git remote add origin https://github.com/FreyVik/node-template.git
+git push -u origin master backend frontend
+```
+
+---
+
+## Rama Actual: Frontend
+
+Esta rama contiene un ejemplo de Hello World para navegador.
+
+### Ejecutar
+```bash
+pnpm dev        # Requiere HTML con elemento #app
+pnpm build     # Compilar a dist/
+```
+
+### Añadir dependencias
+```bash
+pnpm add react react-dom
+pnpm add -D @types/react @types/react-dom
+```
+
+---
+
 ## Pendiente de Definir
 
 - [ ] Tipo de proyecto (API, CLI, frontend, library?)
