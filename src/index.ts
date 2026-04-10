@@ -1,8 +1,5 @@
-console.log("¡Hola, TypeScript!");
-
-function saludar(nombre: string): string {
-	return `Hola, ${nombre}!`;
+// Frontend - Hello World
+const app = document.getElementById('app');
+if (app) {
+  app.textContent = 'Hello World from Frontend!';
 }
-
-const mensaje = saludar("Mundo");
-console.log(mensaje);
