@@ -1,5 +1,8 @@
-// Frontend - Hello World
-const app = document.getElementById('app');
-if (app) {
-  app.textContent = 'Hello World from Frontend!';
+console.log("¡Hola, TypeScript!");
+
+function saludar(nombre: string): string {
+	return `Hola, ${nombre}!`;
 }
+
+const mensaje = saludar("Mundo");
+console.log(mensaje);
