@@ -1,7 +1,7 @@
 console.log("¡Hola, TypeScript!");
 
 function saludar(nombre: string): string {
-  return `Hola, ${nombre}!`;
+	return `Hola, ${nombre}!`;
 }
 
 const mensaje = saludar("Mundo");

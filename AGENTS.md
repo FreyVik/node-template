@@ -131,14 +131,48 @@ pnpm add -D @biomejs/biome
 npx @biomejs/biome init
 ```
 
-#### Scripts recomendados (añadir a package.json)
+#### Scripts (ya incluidos en package.json)
+```bash
+pnpm lint      # Detecta errores de código
+pnpm format   # Formatea el código
+pnpm check    # both Lint + Format
+```
+
+#### Formas de usar Biome
+
+| Método | Cómo funciona | Cuándo usarlo |
+|--------|---------------|---------------|
+| **Manual** | `pnpm format` / `pnpm lint` | Template básico |
+| **Git hooks** | Auto antes de commit | Equipo |
+| **Editor** | VS Code al guardar | Desarrollo personal |
+
+##### Método 1: Manual (básico)
+```bash
+pnpm format   # Cuando recuerdes
+pnpm lint     # Cuando recuerdes
+```
+
+##### Método 2: Git hooks (para equipo)
+```bash
+pnpm add -D husky lint-staged
+npx husky init
+```
+Editar `.husky/pre-commit`:
+```bash
+pnpm lint
+pnpm format
+```
+
+##### Método 3: Editor (VS Code)
+Instalar extensión Biome y config:
 ```json
 {
-  "lint": "biome lint .",
-  "format": "biome format --write .",
-  "check": "biome check ."
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "biomejs.biome"
 }
 ```
+
+**Recomendación:** Método 1 (manual)
 
 ### Testing
 ```bash
