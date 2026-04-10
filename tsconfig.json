@@ -1,45 +1,20 @@
 {
 	"compilerOptions": {
-		// Target y Module (versión de JS y sistema de módulos)
 		"target": "ES2022",
-		"module": "ESNext",
-		"moduleResolution": "bundler",
 		"lib": ["ES2022", "DOM", "DOM.Iterable"],
-		"types": ["node"],
-
-		// Configuración estricta (recomendado)
+		"module": "ESNext",
+		"skipLibCheck": true,
+		"moduleResolution": "bundler",
+		"allowImportingTsExtensions": true,
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"noEmit": true,
+		"jsx": "react-jsx",
 		"strict": true,
 		"exactOptionalPropertyTypes": true,
-
-		// Interoperabilidad (para compatibilidad con CommonJS)
-		"esModuleInterop": true,
-		"forceConsistentCasingInFileNames": true,
-		"resolveJsonModule": true,
-
-		// Compilación (directorios de entrada y salida)
-		"outDir": "./dist",
-		"rootDir": "./src",
-		"declaration": true,
-
-// TypeScript moderno
-"isolatedModules": true,
-"verbatimModuleSyntax": true,
-"moduleDetection": "force",
-"skipLibCheck": true,
-"jsx": "react-jsx",
-
-		// Seguridad extra
-		"noUncheckedIndexedAccess": true
-
-		// ELIMINADOS - solo para proyectos con React
-		// "jsx": "react-jsx",  // Eliminado: solo necesario para React
-		// "sourceMap": true,   // Eliminado: genera .map para debugging (opcional)
-		// "declarationMap": true  // Eliminado: genera .d.ts.map (opcional)
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noFallthroughCasesInSwitch": true
 	},
-
-	// Archivos a incluir en la compilación
-	"include": ["src/**/*.ts"],
-
-	// Archivos a excluir de la compilación
-	"exclude": ["dist", "node_modules"]
+	"include": ["src"]
 }
