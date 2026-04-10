@@ -447,3 +447,60 @@ pnpm add -D @types/fastify
 - Configuración estricta habilitada (`strict: true`)
 - TypeScript 5.x compatible
 - Node.js 23+ soporta ejecución nativa de TypeScript con `--experimental-strip-types`
+
+---
+
+## 🌿 Ramas: Backend + Frontend
+
+Este template incluye dos ramas con ejemplos listos para usar:
+
+| Rama | Propósito | Código de ejemplo |
+|------|----------|---------------|
+| `master` | Template base | Vacío |
+| `backend` | Server/API Node.js | Servidor HTTP básico |
+| `frontend` | Navegador/Web | Hello World DOM |
+
+### Cómo usar las ramas
+
+```bash
+# Ver ramas disponibles
+git branch
+
+# Cambiar a Backend
+git checkout backend
+
+# Cambiar a Frontend
+git checkout frontend
+
+# Volver al template base
+git checkout master
+```
+
+### Ejecutar según la rama
+
+#### Backend
+```bash
+# En rama backend
+pnpm dev
+pnpm build
+pnpm start
+```
+
+#### Frontend
+```bash
+# En rama frontend
+pnpm dev
+pnpm build
+```
+
+### Añadir dependencias según tipo
+
+```bash
+# Backend
+pnpm add express
+pnpm add -D @types/express @types/node
+
+# Frontend (React)
+pnpm add react react-dom
+pnpm add -D @types/react @types/react-dom
+```
