@@ -409,14 +409,38 @@ pnpm start
 
 ## 🛠️ Herramientas Adicionales (opcional)
 
-### Linting y Formateo
-```bash
-# Opción 1: ESLint + Prettier
-pnpm add -D eslint @typescript-eslint/eslint-plugin @typescript-eslint/parser prettier eslint-config-prettier
+### Linting y Formateo - Biome (Recomendado en 2026)
 
-# Opción 2: Biome (más rápido, escrito en Rust)
+**Biome** es la opción recomendada porque:
+- ✅ Reemplaza ESLint + Prettier en una sola herramienta
+- ✅ Escrito en Rust → 50x más rápido que ESLint
+- ✅ Configuración mínima
+- ✅ Mantenimiento activo
+
+#### Instalación
+```bash
 pnpm add -D @biomejs/biome
 ```
+
+#### Inicializar configuración
+```bash
+npx @biomejs/biome init
+```
+
+#### Scripts recomendados (añadir a package.json)
+```json
+{
+  "lint": "biome lint .",
+  "format": "biome format --write .",
+  "check": "biome check ."
+}
+```
+
+#### Comparativa
+| Herramienta | Velocidad | Config |
+|-----------|-----------|--------|
+| **Biome** | ⚡⚡⚡ 50x más rápido | Mínima |
+| ESLint + Prettier | ⚡ | Compleja |
 
 ### Testing
 ```bash
