@@ -156,6 +156,29 @@ import { User, someFunction } from './types';
 
 ---
 
+## Ramas del Proyecto
+
+| Rama | Propósito |
+|------|----------|
+| `master` | Template base |
+| `backend` | Ejemplo Node.js/Express |
+| `frontend` | Ejemplo React/Vanilla |
+
+### Cambiar de rama
+```bash
+git checkout backend   # Para backend
+git checkout frontend  # Para frontend
+git checkout master  # Volver a base
+```
+
+### Push a GitHub
+```bash
+git remote add origin https://github.com/FreyVik/node-template.git
+git push -u origin master backend frontend
+```
+
+---
+
 ## Pendiente de Definir
 
 - [ ] Tipo de proyecto (API, CLI, frontend, library?)
