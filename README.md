@@ -136,7 +136,7 @@ pnpm add <paquete>
 pnpm add -D <paquete>
 ```
 
-### Ejemplos常用:
+### Ejemplos:
 ```bash
 # Router
 pnpm add react-router-dom
