@@ -1,283 +1,215 @@
-# AGENTS.md - Guía de Configuración para Proyectos TypeScript
+# AGENTS.md - Proyecto Finanzas Personales (Frontend)
 
 ## Estado: 🟡 EN CONSTRUCCIÓN
-Este documento se irá actualizando a medida que el proyecto tome forma.
+Este documento seirá actualizando a medida que el proyecto tome forma.
 
 ---
 
 ## 1. Gestor de Paquetes
 
-**pnpm** es el gestor recomendado en 2026 por su velocidad y eficiencia.
+**pnpm** - Gestor recomendado en 2026.
 
 ```bash
-# Instalación global (si no lo tienes)
 npm install -g pnpm
-
-# Comandos básicos
-pnpm install      # Instalar dependencias
-pnpm add <paquete> # Añadir dependencia
-pnpm add -D <paquete> # Añadir dependencia de desarrollo
-pnpm remove <paquete> # Eliminar dependencia
+pnpm install
+pnpm add <paquete>
+pnpm add -D <paquete>
 ```
 
 ---
 
-## 2. Configuración TypeScript (tsconfig.json)
+## 2. Dependencias del Proyecto
 
-### Configuración Base Recomendada
-```json
-{
-  "compilerOptions": {
-    "target": "ES2022",
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "lib": ["ES2022"],
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "declaration": true,
-    "noUncheckedIndexedAccess": true
-  },
-  "include": ["src/**/*.ts"],
-  "exclude": ["dist", "node_modules"]
-}
-```
-
-### Extender Configs Existentes
-En lugar de escribir el tsconfig desde cero, puedes usar configs base mantenidos por la comunidad:
-
-```bash
-pnpm add -D @tsconfig/node20  # Para Node.js
-pnpm add -D @tsconfig/strictest  # Config más estricta
-```
-
-，然后用 extiendes en tu tsconfig:
-```json
-{
-  "extends": "@tsconfig/node20/tsconfig.json",
-  "compilerOptions": {
-    // Tus overrides aquí
-  }
-}
-```
-
----
-
-## 3. Scripts Recomendados (package.json)
-
-```json
-{
-  "scripts": {
-    "dev": "tsx --watch src/index.ts",
-    "build": "tsc",
-    "typecheck": "tsc --noEmit",
-    "start": "node dist/index.js"
-  }
-}
-```
-
----
-
-## 4. Estructura de Proyecto Sugerida
-
-```
-proyecto/
-├── src/
-│   ├── types/        # Definiciones de tipos compartidas
-│   ├── services/     # Lógica de negocio
-│   ├── routes/      # Rutas/endpoints (si aplica)
-│   ├── utils/       # Utilidades
-│   ├── index.ts     # Entry point
-│   └── app.ts       # Configuración de app (si aplica)
-├── dist/            # Output compilado (NO committing)
-├── tests/           # Tests (opcional, puede estar junto a src)
-├── tsconfig.json
-├── package.json
-└── .gitignore
-```
-
-### .gitignore mínimo
-```
-node_modules/
-dist/
-*.log
-.env
-```
-
----
-
-## 5. Herramientas de Desarrollo
-
-### Linting y Formateo - Biome (Recomendado en 2026)
-
-**Biome** es la opción recomendada porque:
-- ✅ Reemplaza ESLint + Prettier en una sola herramienta
-- ✅ Escrito en Rust → 50x más rápido que ESLint
-- ✅ Configuración mínima
-- ✅ Mantenimiento activo
-
-#### Instalación
-```bash
-pnpm add -D @biomejs/biome
-```
-
-#### Inicializar configuración
-```bash
-npx @biomejs/biome init
-```
-
-#### Scripts (ya incluidos en package.json)
-```bash
-pnpm lint      # Detecta errores de código
-pnpm format   # Formatea el código
-pnpm check    # both Lint + Format
-```
-
-#### Formas de usar Biome
-
-| Método | Cómo funciona | Cuándo usarlo |
-|--------|---------------|---------------|
-| **Manual** | `pnpm format` / `pnpm lint` | Template básico |
-| **Git hooks** | Auto antes de commit | Equipo |
-| **Editor** | VS Code al guardar | Desarrollo personal |
-
-##### Método 1: Manual (básico)
-```bash
-pnpm format   # Cuando recuerdes
-pnpm lint     # Cuando recuerdes
-```
-
-##### Método 2: Git hooks (para equipo)
-```bash
-pnpm add -D husky lint-staged
-npx husky init
-```
-Editar `.husky/pre-commit`:
-```bash
-pnpm lint
-pnpm format
-```
-
-##### Método 3: Editor (VS Code)
-Instalar extensión Biome y config:
-```json
-{
-  "editor.formatOnSave": true,
-  "editor.defaultFormatter": "biomejs.biome"
-}
-```
-
-**Recomendación:** Método 1 (manual)
-
-### Testing
-```bash
-pnpm add -D vitest
-pnpm add -D @types/node  # Para tipos de Node en tests
-```
-
-### Ejecución TypeScript Directa
-```bash
-pnpm add -D tsx  # Ejecuta TS directamente sin compilar
-```
-
----
-
-## 6. Patrones y Convenciones
-
-### Imports
-```typescript
-// ✅ Use type imports para tipos
-import type { User, CreateUserDto } from './types';
-import { someFunction } from './utils';
-
-// ❌ Evitar
-import { User, someFunction } from './types';
-```
-
-### Strict Mode
-**Siempre** habilitar `strict: true`. Es 2026, no hay excusa para no usarlo.
-
-### Tipos vs Runtime
-- Types solo existen en compilación
-- Para validación runtime, usar **Zod** o **Valibot**
-
----
-
-## Ramas del Proyecto
-
-| Rama | Propósito |
-|------|----------|
-| `master` | Template base |
-| `backend` | Ejemplo Node.js/Express |
-| `frontend` | Ejemplo React/Vanilla |
-
-### Cambiar de rama
-```bash
-git checkout backend   # Para backend
-git checkout frontend  # Para frontend
-git checkout master  # Volver a base
-```
-
-### Push a GitHub
-```bash
-git remote add origin https://github.com/FreyVik/node-template.git
-git push -u origin master backend frontend
-```
-
----
-
-<<<<<<< HEAD
-## Rama Actual: Frontend
-
-Esta rama contiene un ejemplo de Hello World para navegador.
-
-### Ejecutar
-```bash
-pnpm dev        # Requiere HTML con elemento #app
-pnpm build     # Compilar a dist/
-```
-
-### Añadir dependencias
+### Core
 ```bash
 pnpm add react react-dom
 pnpm add -D @types/react @types/react-dom
 ```
 
----
-
-=======
->>>>>>> master
-## Pendiente de Definir
-
-- [ ] Tipo de proyecto (API, CLI, frontend, library?)
-- [ ] Framework (Express, Fastify, Nest, none?)
-- [ ] Base config a usar (@tsconfig/...)
-- [ ] Estado de ESLint/Prettier/Biome
-- [ ] Testing (Vitest, Jest, none?)
-- [ ] Variables de entorno (necesitas validación con Zod?)
-
----
-
-## Comandos de Setup Rápido
-
+### Routing
 ```bash
-# Inicializar proyecto vacío con la config base
-mkdir <nombre-proyecto> && cd <nombre-proyecto>
-pnpm init
-pnpm add -D typescript @types/node tsx
-npx tsc --init
-# Editar tsconfig.json manualmente (ver arriba)
+pnpm add react-router-dom
+```
+
+### UI/Styles (elegir uno)
+```bash
+# Opción A: Tailwind CSS
+pnpm add -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
+
+# Opción B: Styled Components
+pnpm add styled-components
+pnpm add -D @types/styled-components
+
+# Opción C: CSS Modules (vanilla)
+# Ya incluido sin libs extra
+```
+
+### Gráficos (para gráficos financieros)
+```bash
+pnpm add recharts
+pnpm add -D @types/recharts
+```
+
+### Iconos
+```bash
+pnpm add lucide-react
+```
+
+### Fechas
+```bash
+pnpm add date-fns
+```
+
+### Validación
+```bash
+pnpm add zod
+```
+
+### HTTP Client
+```bash
+pnpm add axios
 ```
 
 ---
 
-## Notas Adicionales
+## 3. Estructura de Proyecto
 
-- Para proyectos con frameworks específicos (Next.js, Express, etc.), los configs varían ligeramente
-- Si usas un framework, suele generar un tsconfig correcto automáticamente
-- En 2026, Node.js 23+ soporta ejecución nativa de TypeScript con `--experimental-strip-types`
+```
+src/
+├── components/
+│   ├── ui/           # Componentes reutilizables (Button, Input, Card)
+│   ├── charts/       # Gráficos financieros
+│   ├── forms/        # Formularios
+│   └── layout/       # Layout (Header, Sidebar, etc.)
+├── pages/
+│   ├── Dashboard.tsx
+│   ├── Transacciones.tsx
+│   ├── Cuentas.tsx
+│   ├── Informes.tsx
+│   └── Configuracion.tsx
+├── services/
+│   ├── api.ts        # Configuración axios
+│   ├── transacciones.ts
+│   ├── cuentas.ts
+│   └── budgets.ts
+├── hooks/
+│   ├── useTransacciones.ts
+│   ├── useCuentas.ts
+│   └── usePresupuesto.ts
+├── types/
+│   ├── transaccion.ts
+│   ├── cuenta.ts
+│   └── presupuesto.ts
+├── utils/
+│   ├── formateo.ts   # формат números, fechas
+│   ├── calculos.ts  # cálculos financieros
+│   └── constantes.ts
+├── context/
+│   └── AppContext.tsx # Estado global
+├── App.tsx
+└── main.tsx
+```
+
+---
+
+## 4. Scripts
+
+```json
+{
+  "dev": "vite",
+  "build": "tsc && vite build",
+  "preview": "vite preview",
+  "lint": "biome lint .",
+  "format": "biome format --write ."
+}
+```
+
+---
+
+## 5. Configuración TypeScript (tsconfig.json)
+
+```json
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": ["src"],
+  "references": [{ "path": "./tsconfig.node.json" }]
+}
+```
+
+---
+
+## 6. Tipos Principales
+
+```typescript
+// src/types/transaccion.ts
+export type Transaccion = {
+  id: string;
+  tipo: 'ingreso' | 'gasto';
+  cantidad: number;
+  categoria: string;
+  fecha: Date;
+  cuentaId: string;
+  nota?: string;
+};
+
+// src/types/cuenta.ts
+export type Cuenta = {
+  id: string;
+  nombre: string;
+  tipo: 'bancaria' | 'efectivo' | 'tarjeta';
+  saldo: number;
+  moneda: 'EUR' | 'USD';
+};
+```
+
+---
+
+## 7. Stack Tecnológico Elegido
+
+| Categoría | Tecnología |
+|----------|------------|
+| Framework | React |
+| Routing | React Router |
+| Estado | Context API |
+| Estilos | Tailwind CSS |
+| Gráficos | Recharts |
+| Fechas | date-fns |
+| Validación | Zod |
+| Icons | Lucide |
+
+---
+
+## 8. Pendiente
+
+- [ ] Definir estructura de datos
+- [ ] Configurar Tailwind
+- [ ] Crear componentes base
+- [ ] Implementar transacciones CRUD
+- [ ] ImplementarDashboard
+- [ ] Añadir gráficos
+
+---
+
+## 9. Notas
+
+- Usar Zod para validación de formularios
+- date-fns para tutto relacionado con fechas
+- Recharts para gráficos de gastos/ingresos
+- context para estado global (cuentas, transacciones)
