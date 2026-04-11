@@ -1,5 +1,18 @@
 # AGENTS.md - Backend Development Guide
 
+## Recent Updates
+
+## 2026-04-11
+
+### Added
+- Project dependencies installed: `express`, `sqlite3`, `cors`, `dotenv`, `helmet`, `typescript`, `@types/node`, `@types/express`, `nodemon`, `ts-node`.
+- Initial backend structure created: `data/`, `src/routes/`, `src/controllers/`, `src/models/`, `src/middleware/`.
+- Environment template created: `.env.example` with `PORT=4000`.
+
+### Completed
+- [x] Phase 1 / Step 1: Initial project setup (`pnpm init`, dependencies, `tsconfig.json`).
+- [x] Phase 1 / Step 2: Base project structure and environment example file.
+
 ## Tech Stack
 - **Runtime:** Node.js
 - **Framework:** Express
