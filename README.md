@@ -124,21 +124,6 @@ pnpm preview
 | `noEmit` | true | No generar archivos .js (Vite lo hace) |
 | `moduleResolution` | bundler | Para proyectos con bundlers (Vite) |
 
-#### ¿Qué incluye `strict: true`?
-
-Al activar `strict: true`, TypeScript habilita automáticamente todas estas comprobaciones:
-
-| Opción | Descripción |
-|--------|-------------|
-| `noImplicitAny` | Obliga a escribir tipos explícitos. No permite tipos implícitos "any" |
-| `noImplicitThis` | Evita que `this` sea implícito en funciones |
-| `strictNullChecks` | Obliga a manejar null/undefined explícitamente |
-| `strictFunctionTypes` | Valida tipos en funciones (covarianza/contravarianza) |
-| `strictPropertyInitialization` | Requiere que las propiedades de clase estén inicializadas |
-| `strictBindCallApply` | Verifica tipos en bind/call/apply |
-
-> **Nota**: No es necesario añadir estas opciones explícitamente si ya tienes `strict: true`
-
 ---
 
 ## 🔄 Añadir nuevas dependencias
