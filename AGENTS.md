@@ -1,19 +1,5 @@
 # AGENTS.md - Backend Development Guide
 
-## Recent Updates
-
-## 2026-04-11
-
-### Added
-- Production dependencies installed: `express`, `sqlite3`, `cors`, `dotenv`, `helmet` (API framework, SQLite integration, CORS support, environment variable loading, security headers).
-- Development dependencies installed: `typescript`, `@types/node`, `@types/express`, `nodemon`, `ts-node` (TypeScript build/runtime support, Node and Express typing, auto-reload in development).
-- Additional typing packages detected in project: `@types/cors`, `@types/sqlite3`.
-- Backend entry file present: `src/index.ts`.
-
-### Completed
-- [x] Phase 1 / Step 1: Initial project setup.
-- [x] `tsconfig.json` configured for Node.js + TypeScript output to `dist` from `src`.
-
 ## Tech Stack
 - **Runtime:** Node.js
 - **Framework:** Express
