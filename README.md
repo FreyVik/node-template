@@ -235,6 +235,12 @@ Reemplazar el contenido con esta configuración recomendada:
 | `strict: true` | Habilita TODAS las comprobaciones estrictas de tipos |
 | `exactOptionalPropertyTypes` | `?` properties no pueden ser undefined, deben tener valor |
 
+> **Nota**: `strict: true` ya incluye `noImplicitAny`, por lo que no es necesario añadirlo explícitamente. Entre otras, activa las siguientes comprobaciones:
+> - `noImplicitAny` - Obliga a escribir tipos explícitos
+> - `noImplicitThis` - Evita `this` implícito
+> - `strictNullChecks` - Null/undefined checks obligatorios
+> - `strictFunctionTypes` - Validación de tipos en funciones
+
 #### Interoperabilidad
 | Opción | Propósito |
 |--------|----------|
