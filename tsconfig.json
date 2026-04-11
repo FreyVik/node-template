@@ -1,56 +1,19 @@
 {
   "compilerOptions": {
-    // Target y Module (versión de JS y sistema de módulos)
     "target": "ES2022",
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "lib": [
-      "ES2022"
-    ],
-    "types": [
-      "node"
-    ],
-    // Configuración estricta (recomendado)
-    "strict": true,
-    "exactOptionalPropertyTypes": true,
-    // Interoperabilidad (para compatibilidad con CommonJS)
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
-    // Compilación (directorios de entrada y salida)
+    "module": "CommonJS",
+    "lib": ["ES2022"],
     "outDir": "./dist",
     "rootDir": "./src",
-    "declaration": true,
-    // TypeScript moderno
-    "isolatedModules": true,
-    "verbatimModuleSyntax": true,
-    "moduleDetection": "force",
+    "strict": true,
+    "esModuleInterop": true,
     "skipLibCheck": true,
-    // Seguridad extra
-    "noUncheckedIndexedAccess": true,
-    "allowJs": true,
-    "noEmit": true,
-    "incremental": true,
-    "jsx": "react-jsx",
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ]
-    // ELIMINADOS - solo para proyectos con React
-    // "jsx": "react-jsx",  // Eliminado: solo necesario para React
-    // "sourceMap": true,   // Eliminado: genera .map para debugging (opcional)
-    // "declarationMap": true  // Eliminado: genera .d.ts.map (opcional)
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true
   },
-  // Archivos a incluir en la compilación
-  "include": [
-    "src/**/*.ts",
-    ".next/types/**/*.ts",
-    ".next/dev/types/**/*.ts"
-  ],
-  // Archivos a excluir de la compilación
-  "exclude": [
-    "dist",
-    "node_modules"
-  ]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
 }

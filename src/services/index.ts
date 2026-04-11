@@ -1,2 +1,0 @@
-// Servicios del proyecto
-export {};
