@@ -1,6 +1,10 @@
 # Dependencies
 node_modules/
 
+# Next.js
+.next/
+out/
+
 # Build tools
 dist/
 build/
@@ -34,3 +38,4 @@ coverage/
 
 # Misc
 *.tsbuildinfo
+next-env.d.ts
