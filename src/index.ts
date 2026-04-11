@@ -1,12 +1,8 @@
-// Backend - Hello World
-console.log("Hello World from Backend!");
+import app from "./app";
 
-const http = require('http');
-const server = http.createServer((req, res) => {
-  res.writeHead(200, { 'Content-Type': 'text/plain' });
-  res.end('Hello World from Backend!');
-});
+const PORT = process.env.PORT || 4000;
 
-server.listen(3000, () => {
-  console.log('Server running on http://localhost:3000');
+app.listen(PORT, () => {
+	console.log(`Server is running on port ${PORT}`);
+	console.log(`API is available at http://localhost:${PORT}/api/health`);
 });

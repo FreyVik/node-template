@@ -160,3 +160,4 @@ CREATE TABLE categorias (
 2. La base de datos se creará automáticamente en la carpeta `data/`
 3. No hay autenticación - es una aplicación local para un solo usuario
 4. Usar middleware de CORS para permitir peticiones desde el frontend
+5. Biome está configurado para lint/format con `pnpm lint`, `pnpm lint:fix` y `pnpm format`

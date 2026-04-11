@@ -8,10 +8,13 @@
 - Project dependencies installed: `express`, `sqlite3`, `cors`, `dotenv`, `helmet`, `typescript`, `@types/node`, `@types/express`, `nodemon`, `ts-node`.
 - Initial backend structure created: `data/`, `src/routes/`, `src/controllers/`, `src/models/`, `src/middleware/`.
 - Environment template created: `.env.example` with `PORT=4000`.
+- Code quality tooling added: `@biomejs/biome` with project config in `biome.json`.
+- New scripts added for quality checks: `lint`, `lint:fix`, `format`.
 
 ### Completed
 - [x] Phase 1 / Step 1: Initial project setup (`pnpm init`, dependencies, `tsconfig.json`).
 - [x] Phase 1 / Step 2: Base project structure and environment example file.
+- [x] Smoke test verified for `GET /api/health` and `GET /api/info/summary` using local `pnpm dev` execution.
 
 ## Tech Stack
 - **Runtime:** Node.js
@@ -31,14 +34,17 @@ pnpm add express sqlite3 cors dotenv helmet
 
 ### Development Dependencies
 ```bash
-pnpm add -D typescript @types/node @types/express nodemon ts-node
+pnpm add -D typescript @types/node @types/express nodemon ts-node @biomejs/biome
 ```
 
 ### Package.json Scripts
 ```json
 {
   "scripts": {
-    "dev": "pnpm nodemon src/index.ts",
+    "dev": "nodemon src/index.ts",
+    "lint": "biome check .",
+    "lint:fix": "biome check . --write",
+    "format": "biome format . --write",
     "build": "tsc",
     "start": "node dist/index.js"
   }
