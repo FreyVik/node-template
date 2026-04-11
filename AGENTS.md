@@ -1,140 +1,79 @@
-# AGENTS.md - Proyecto Finanzas Personales (Frontend)
+# AGENTS.md - Frontend Development Guide
 
-## Estado: 🟡 EN CONSTRUCCIÓN
-Este documento seirá actualizando a medida que el proyecto tome forma.
-
----
-
-## 1. Gestor de Paquetes
-
-**pnpm** - Gestor recomendado en 2026.
-
-```bash
-npm install -g pnpm
-pnpm install
-pnpm add <paquete>
-pnpm add -D <paquete>
-```
+## Tech Stack
+- **Build tool:** Vite
+- **Framework:** React
+- **Language:** TypeScript
+- **State Management:** TanStack Query (React Query)
+- **Styling:** Tailwind CSS
+- **Communication:** Fetch API
+- **Package Manager:** pnpm
 
 ---
 
-## 2. Dependencias del Proyecto
+## Initial Setup
 
-### Core
+### Additional Dependencies
 ```bash
-pnpm add react react-dom
-pnpm add -D @types/react @types/react-dom
+pnpm add @tanstack/react-query
 ```
 
-### Routing
+### Development Dependencies
 ```bash
-pnpm add react-router-dom
-```
-
-### UI/Styles (elegir uno)
-```bash
-# Opción A: Tailwind CSS
 pnpm add -D tailwindcss postcss autoprefixer
-npx tailwindcss init -p
-
-# Opción B: Styled Components
-pnpm add styled-components
-pnpm add -D @types/styled-components
-
-# Opción C: CSS Modules (vanilla)
-# Ya incluido sin libs extra
-```
-
-### Gráficos (para gráficos financieros)
-```bash
-pnpm add recharts
-pnpm add -D @types/recharts
-```
-
-### Iconos
-```bash
-pnpm add lucide-react
-```
-
-### Fechas
-```bash
-pnpm add date-fns
-```
-
-### Validación
-```bash
-pnpm add zod
-```
-
-### HTTP Client
-```bash
-pnpm add axios
 ```
 
 ---
 
-## 3. Estructura de Proyecto
+## Project Structure
 
 ```
-src/
-├── components/
-│   ├── ui/           # Componentes reutilizables (Button, Input, Card)
-│   ├── charts/       # Gráficos financieros
-│   ├── forms/        # Formularios
-│   └── layout/       # Layout (Header, Sidebar, etc.)
-├── pages/
-│   ├── Dashboard.tsx
-│   ├── Transacciones.tsx
-│   ├── Cuentas.tsx
-│   ├── Informes.tsx
-│   └── Configuracion.tsx
-├── services/
-│   ├── api.ts        # Configuración axios
-│   ├── transacciones.ts
-│   ├── cuentas.ts
-│   └── budgets.ts
-├── hooks/
-│   ├── useTransacciones.ts
-│   ├── useCuentas.ts
-│   └── usePresupuesto.ts
-├── types/
-│   ├── transaccion.ts
-│   ├── cuenta.ts
-│   └── presupuesto.ts
-├── utils/
-│   ├── formateo.ts   # формат números, fechas
-│   ├── calculos.ts  # cálculos financieros
-│   └── constantes.ts
-├── context/
-│   └── AppContext.tsx # Estado global
-├── App.tsx
-└── main.tsx
-```
-
----
-
-## 4. Scripts
-
-```json
-{
-  "dev": "vite",
-  "build": "tsc && vite build",
-  "preview": "vite preview",
-  "lint": "biome lint .",
-  "format": "biome format --write ."
-}
+frontend/
+├── src/
+│   ├── main.tsx           (entry point)
+│   ├── App.tsx            (main component)
+│   ├── components/
+│   │   └── ui/
+│   │       ├── Button.tsx
+│   │       ├── Input.tsx
+│   │       ├── Card.tsx
+│   │       └── Loading.tsx
+│   ├── pages/
+│   │   ├── Dashboard.tsx
+│   │   ├── Cuentas.tsx
+│   │   ├── Transacciones.tsx
+│   │   └── Categorias.tsx
+│   ├── services/
+│   │   ├── api.ts        (fetch base configuration)
+│   │   ├── cuentasService.ts
+│   │   ├── transaccionesService.ts
+│   │   └── categoriasService.ts
+│   ├── hooks/
+│   │   ├── useCuentas.ts
+│   │   ├── useTransacciones.ts
+│   │   └── useCategorias.ts
+│   └── types/
+│       ├── cuenta.ts
+│       ├── transaccion.ts
+│       └── categoria.ts
+├── package.json
+├── tsconfig.json
+├── vite.config.ts
+├── tailwind.config.js
+├── postcss.config.js
+├── Dockerfile
+└── .env.example
 ```
 
 ---
 
-## 5. Configuración TypeScript (tsconfig.json)
+## tsconfig.json
 
 ```json
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
     "moduleResolution": "bundler",
@@ -144,72 +83,187 @@ src/
     "noEmit": true,
     "jsx": "react-jsx",
     "strict": true,
+    "exactOptionalPropertyTypes": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "include": ["src"]
 }
 ```
 
 ---
 
-## 6. Tipos Principales
+## Tailwind CSS Configuration
 
+### Install & Init
+```bash
+pnpm add -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
+```
+
+### tailwind.config.js
+```javascript
+export default {
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
+  theme: { extend: {} },
+  plugins: [],
+}
+```
+
+### src/index.css
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
+### main.tsx
 ```typescript
-// src/types/transaccion.ts
-export type Transaccion = {
-  id: string;
-  tipo: 'ingreso' | 'gasto';
-  cantidad: number;
-  categoria: string;
-  fecha: Date;
-  cuentaId: string;
-  nota?: string;
-};
-
-// src/types/cuenta.ts
-export type Cuenta = {
-  id: string;
-  nombre: string;
-  tipo: 'bancaria' | 'efectivo' | 'tarjeta';
-  saldo: number;
-  moneda: 'EUR' | 'USD';
-};
+import './index.css'
 ```
 
 ---
 
-## 7. Stack Tecnológico Elegido
+## TanStack Query Configuration
 
-| Categoría | Tecnología |
-|----------|------------|
-| Framework | React |
-| Routing | React Router |
-| Estado | Context API |
-| Estilos | Tailwind CSS |
-| Gráficos | Recharts |
-| Fechas | date-fns |
-| Validación | Zod |
-| Icons | Lucide |
+### main.tsx
+```typescript
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
 
----
+const queryClient = new QueryClient();
 
-## 8. Pendiente
-
-- [ ] Definir estructura de datos
-- [ ] Configurar Tailwind
-- [ ] Crear componentes base
-- [ ] Implementar transacciones CRUD
-- [ ] ImplementarDashboard
-- [ ] Añadir gráficos
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  <React.StrictMode>
+    <QueryClientProvider client={queryClient}>
+      <App />
+    </QueryClientProvider>
+  </React.StrictMode>
+);
+```
 
 ---
 
-## 9. Notas
+## API Service
 
-- Usar Zod para validación de formularios
-- date-fns para tutto relacionado con fechas
-- Recharts para gráficos de gastos/ingresos
-- context para estado global (cuentas, transacciones)
+### src/services/api.ts
+```typescript
+const API_URL = 'http://localhost:4000/api';
+
+export async function fetchAPI(endpoint: string, options?: RequestInit) {
+  const response = await fetch(`${API_URL}${endpoint}`, {
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options?.headers,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Error: ${response.status}`);
+  }
+  return response.json();
+}
+```
+
+---
+
+## Entity Services Examples
+
+### src/services/cuentasService.ts
+```typescript
+import { fetchAPI } from './api';
+
+export const getCuentas = () => fetchAPI('/api/cuentas');
+export const getCuentaById = (id: string) => fetchAPI(`/api/cuentas/${id}`);
+export const createCuenta = (data: any) => fetchAPI('/api/cuentas', {
+  method: 'POST',
+  body: JSON.stringify(data)
+});
+export const updateCuenta = (id: string, data: any) => fetchAPI(`/api/cuentas/${id}`, {
+  method: 'PUT',
+  body: JSON.stringify(data)
+});
+export const deleteCuenta = (id: string) => fetchAPI(`/api/cuentas/${id}`, {
+  method: 'DELETE'
+});
+```
+
+---
+
+## Custom Hooks Examples
+
+### src/hooks/useCuentas.ts
+```typescript
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { getCuentas, createCuenta, updateCuenta, deleteCuenta } from '../services/cuentasService';
+
+export function useCuentas() {
+  return useQuery({ queryKey: ['cuentas'], queryFn: getCuentas });
+}
+
+export function useCreateCuenta() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: createCuenta,
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['cuentas'] }),
+  });
+}
+```
+
+---
+
+## Components Structure
+
+### Basic UI Components
+- `src/components/ui/Button.tsx` - styled button
+- `src/components/ui/Input.tsx` - styled input
+- `src/components/ui/Card.tsx` - styled card
+- `src/components/ui/Loading.tsx` - loading spinner
+
+### Page Components
+- `src/pages/Dashboard.tsx` - financial summary
+- `src/pages/Cuentas.tsx` - accounts management
+- `src/pages/Transacciones.tsx` - transactions management
+- `src/pages/Categorias.tsx` - categories management
+
+---
+
+## App Structure
+
+### src/App.tsx
+- Basic navigation (tabs or sidebar)
+- Page routing based on state
+- Integration of components and hooks
+
+---
+
+## Docker
+
+### Dockerfile
+- Create for development or production
+
+---
+
+## Backend Connection
+
+Frontend connects to backend at `http://localhost:4000/api`:
+- Frontend UI runs on port 3000 (Vite dev)
+- Backend API runs on port 4000
+
+**Important:** Start backend first (`pnpm dev` in backend directory).
+
+---
+
+## Notes
+
+1. Start backend before frontend (`pnpm dev` in backend directory)
+2. Use TanStack Query for data fetching, caching, and state management
+3. Use Fetch API for HTTP requests (no Axios)
+4. Use Tailwind CSS for styling
