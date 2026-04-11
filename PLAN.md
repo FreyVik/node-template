@@ -255,7 +255,7 @@ Asegúrate de que el backend está corriendo antes de iniciar el frontend.
 
 ## 📝 NOTAS
 
-1. Antes de iniciar el frontend, asegúrate de que el backend está corriendo (`npm run dev` en el directorio backend)
+1. Antes de iniciar el frontend, asegúrate de que el backend está corriendo (`pnpm dev` en el directorio backend)
 2. Usar TanStack Query para fetching de datos, caché y gestión de estado
 3. Usar Fetch API para HTTP requests (sin Axios)
 4. Usar Tailwind CSS para estilos
