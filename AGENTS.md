@@ -1,81 +1,32 @@
-# AGENTS.md - Guía de Configuración para Proyectos TypeScript
+# AGENTS.md - Backend Development Guide
 
-## Estado: 🟡 EN CONSTRUCCIÓN
-Este documento se irá actualizando a medida que el proyecto tome forma.
+## Tech Stack
+- **Runtime:** Node.js
+- **Framework:** Express
+- **Database:** SQLite
+- **Language:** TypeScript
+- **Package Manager:** pnpm
 
 ---
 
-## 1. Gestor de Paquetes
+## Initial Setup
 
-**pnpm** es el gestor recomendado en 2026 por su velocidad y eficiencia.
-
+### Production Dependencies
 ```bash
-# Instalación global (si no lo tienes)
-npm install -g pnpm
-
-# Comandos básicos
-pnpm install      # Instalar dependencias
-pnpm add <paquete> # Añadir dependencia
-pnpm add -D <paquete> # Añadir dependencia de desarrollo
-pnpm remove <paquete> # Eliminar dependencia
+pnpm add express sqlite3 cors dotenv helmet
 ```
 
----
-
-## 2. Configuración TypeScript (tsconfig.json)
-
-### Configuración Base Recomendada
-```json
-{
-  "compilerOptions": {
-    "target": "ES2022",
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "lib": ["ES2022"],
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "declaration": true,
-    "noUncheckedIndexedAccess": true
-  },
-  "include": ["src/**/*.ts"],
-  "exclude": ["dist", "node_modules"]
-}
-```
-
-### Extender Configs Existentes
-En lugar de escribir el tsconfig desde cero, puedes usar configs base mantenidos por la comunidad:
-
+### Development Dependencies
 ```bash
-pnpm add -D @tsconfig/node20  # Para Node.js
-pnpm add -D @tsconfig/strictest  # Config más estricta
+pnpm add -D typescript @types/node @types/express nodemon ts-node
 ```
 
-，然后用 extiendes en tu tsconfig:
-```json
-{
-  "extends": "@tsconfig/node20/tsconfig.json",
-  "compilerOptions": {
-    // Tus overrides aquí
-  }
-}
-```
-
----
-
-## 3. Scripts Recomendados (package.json)
-
+### Package.json Scripts
 ```json
 {
   "scripts": {
-    "dev": "tsx --watch src/index.ts",
+    "dev": "pnpm nodemon src/index.ts",
     "build": "tsc",
-    "typecheck": "tsc --noEmit",
     "start": "node dist/index.js"
   }
 }
@@ -83,168 +34,142 @@ pnpm add -D @tsconfig/strictest  # Config más estricta
 
 ---
 
-## 4. Estructura de Proyecto Sugerida
+## Project Structure
 
 ```
-proyecto/
+backend/
 ├── src/
-│   ├── types/        # Definiciones de tipos compartidas
-│   ├── services/     # Lógica de negocio
-│   ├── routes/      # Rutas/endpoints (si aplica)
-│   ├── utils/       # Utilidades
-│   ├── index.ts     # Entry point
-│   └── app.ts       # Configuración de app (si aplica)
-├── dist/            # Output compilado (NO committing)
-├── tests/           # Tests (opcional, puede estar junto a src)
-├── tsconfig.json
+│   ├── index.ts           (entry point)
+│   ├── app.ts            (Express configuration)
+│   ├── routes/           (API routes)
+│   ├── controllers/      (business logic)
+│   ├── models/           (SQLite data models)
+│   └── middleware/       (middlewares)
+├── data/                 (.sqlite file)
 ├── package.json
-└── .gitignore
-```
-
-### .gitignore mínimo
-```
-node_modules/
-dist/
-*.log
-.env
+├── tsconfig.json
+├── Dockerfile
+└── .env.example
 ```
 
 ---
 
-## 5. Herramientas de Desarrollo
+## tsconfig.json
 
-### Linting y Formateo - Biome (Recomendado en 2026)
-
-**Biome** es la opción recomendada porque:
-- ✅ Reemplaza ESLint + Prettier en una sola herramienta
-- ✅ Escrito en Rust → 50x más rápido que ESLint
-- ✅ Configuración mínima
-- ✅ Mantenimiento activo
-
-#### Instalación
-```bash
-pnpm add -D @biomejs/biome
-```
-
-#### Inicializar configuración
-```bash
-npx @biomejs/biome init
-```
-
-#### Scripts recomendados (añadir a package.json)
 ```json
 {
-  "lint": "biome lint .",
-  "format": "biome format --write .",
-  "check": "biome check ."
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "CommonJS",
+    "lib": ["ES2022"],
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
 }
 ```
 
-### Testing
-```bash
-pnpm add -D vitest
-pnpm add -D @types/node  # Para tipos de Node en tests
-```
-
-### Ejecución TypeScript Directa
-```bash
-pnpm add -D tsx  # Ejecuta TS directamente sin compilar
-```
-
 ---
 
-## 6. Patrones y Convenciones
+## Middlewares
 
-### Imports
+Middlewares are configured in `src/app.ts`:
+
 ```typescript
-// ✅ Use type imports para tipos
-import type { User, CreateUserDto } from './types';
-import { someFunction } from './utils';
+import express from 'express';
+import cors from 'cors';
+import helmet from 'helmet';
+import dotenv from 'dotenv';
 
-// ❌ Evitar
-import { User, someFunction } from './types';
-```
+dotenv.config();
 
-### Strict Mode
-**Siempre** habilitar `strict: true`. Es 2026, no hay excusa para no usarlo.
+const app = express();
 
-### Tipos vs Runtime
-- Types solo existen en compilación
-- Para validación runtime, usar **Zod** o **Valibot**
+app.use(cors());
+app.use(helmet());
+app.use(express.json());
 
----
-
-## Ramas del Proyecto
-
-| Rama | Propósito |
-|------|----------|
-| `master` | Template base |
-| `backend` | Ejemplo Node.js/Express |
-| `frontend` | Ejemplo React/Vanilla |
-
-### Cambiar de rama
-```bash
-git checkout backend   # Para backend
-git checkout frontend  # Para frontend
-git checkout master  # Volver a base
-```
-
-### Push a GitHub
-```bash
-git remote add origin https://github.com/FreyVik/node-template.git
-git push -u origin master backend frontend
+export default app;
 ```
 
 ---
 
-<<<<<<< HEAD
-## Rama Actual: Backend
+## Database
 
-Esta rama contiene un ejemplo de servidor HTTP básico.
+SQLite database is initialized in `src/models/database.ts`. The tables created are:
 
-### Ejecutar
+- **cuentas**: id, nombre, tipo, saldo, moneda
+- **transacciones**: id, tipo, cantidad, categoria, fecha, cuentaId, nota
+- **categorias**: id, nombre, icono, color
+
+---
+
+## API Endpoints
+
+### Cuentas
+| Method | Route | Description |
+|--------|------|-------------|
+| GET | /api/cuentas | Get all accounts |
+| GET | /api/cuentas/:id | Get account by ID |
+| POST | /api/cuentas | Create account |
+| PUT | /api/cuentas/:id | Update account |
+| DELETE | /api/cuentas/:id | Delete account |
+
+### Transacciones
+| Method | Route | Description |
+|--------|------|-------------|
+| GET | /api/transacciones | Get all transactions |
+| GET | /api/transacciones/:id | Get transaction by ID |
+| POST | /api/transacciones | Create transaction |
+| PUT | /api/transacciones/:id | Update transaction |
+| DELETE | /api/transacciones/:id | Delete transaction |
+
+### Categorías
+| Method | Route | Description |
+|--------|------|-------------|
+| GET | /api/categorias | Get all categories |
+| GET | /api/categorias/:id | Get category by ID |
+| POST | /api/categorias | Create category |
+| PUT | /api/categorias/:id | Update category |
+| DELETE | /api/categorias/:id | Delete category |
+
+---
+
+## Execution
+
 ```bash
-pnpm dev        # Servidor con hot reload en puerto 3000
-pnpm build     # Compilar a dist/
-pnpm start     # Ejecutar servidor compilado
+# Development (with hot reload)
+pnpm dev
+
+# Production
+pnpm build
+pnpm start
 ```
 
-### Añadir dependencias
-```bash
-pnpm add express
-pnpm add -D @types/express @types/node
+The server listens on the port defined in `process.env.PORT` (default 4000).
+
+---
+
+## Environment Variables
+
+Create `.env` file:
+```
+PORT=4000
 ```
 
 ---
 
-=======
->>>>>>> master
-## Pendiente de Definir
+## Notes
 
-- [ ] Tipo de proyecto (API, CLI, frontend, library?)
-- [ ] Framework (Express, Fastify, Nest, none?)
-- [ ] Base config a usar (@tsconfig/...)
-- [ ] Estado de ESLint/Prettier/Biome
-- [ ] Testing (Vitest, Jest, none?)
-- [ ] Variables de entorno (necesitas validación con Zod?)
-
----
-
-## Comandos de Setup Rápido
-
-```bash
-# Inicializar proyecto vacío con la config base
-mkdir <nombre-proyecto> && cd <nombre-proyecto>
-pnpm init
-pnpm add -D typescript @types/node tsx
-npx tsc --init
-# Editar tsconfig.json manualmente (ver arriba)
-```
-
----
-
-## Notas Adicionales
-
-- Para proyectos con frameworks específicos (Next.js, Express, etc.), los configs varían ligeramente
-- Si usas un framework, suele generar un tsconfig correcto automáticamente
-- En 2026, Node.js 23+ soporta ejecución nativa de TypeScript con `--experimental-strip-types`
+- Database is automatically created in the `data/` folder
+- No authentication - it's a local application
+- Frontend connects to `http://localhost:4000/api`
