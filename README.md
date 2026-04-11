@@ -235,11 +235,18 @@ Reemplazar el contenido con esta configuración recomendada:
 | `strict: true` | Habilita TODAS las comprobaciones estrictas de tipos |
 | `exactOptionalPropertyTypes` | `?` properties no pueden ser undefined, deben tener valor |
 
-> **Nota**: `strict: true` ya incluye `noImplicitAny`, por lo que no es necesario añadirlo explícitamente. Entre otras, activa las siguientes comprobaciones:
-> - `noImplicitAny` - Obliga a escribir tipos explícitos
-> - `noImplicitThis` - Evita `this` implícito
-> - `strictNullChecks` - Null/undefined checks obligatorios
-> - `strictFunctionTypes` - Validación de tipos en funciones
+> **Nota**: `strict: true` ya incluye todas las comprobaciones estrictas, por lo que no es necesario añadirlas explícitamente.
+
+Al activar `strict: true`, TypeScript habilita automáticamente:
+
+| Opción | Descripción |
+|--------|-------------|
+| `noImplicitAny` | Obliga a escribir tipos explícitos. No permite tipos implícitos "any" |
+| `noImplicitThis` | Evita que `this` sea implícito en funciones |
+| `strictNullChecks` | Obliga a manejar null/undefined explícitamente |
+| `strictFunctionTypes` | Valida tipos en funciones (covarianza/contravarianza) |
+| `strictPropertyInitialization` | Requiere que las propiedades de clase estén inicializadas |
+| `strictBindCallApply` | Verifica tipos en bind/call/apply |
 
 #### Interoperabilidad
 | Opción | Propósito |
