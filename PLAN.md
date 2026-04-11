@@ -43,11 +43,11 @@ backend/
 ### FASE 1: CONFIGURACIÓN INICIAL
 
 #### Paso 1: Inicializar proyecto
-- [ ] `npm init -y`
+- [ ] `pnpm init`
 - [ ] Instalar dependencias de desarrollo:
-  - `npm install -D typescript @types/node @types/express nodemon ts-node`
+  - `pnpm add -D typescript @types/node @types/express nodemon ts-node`
 - [ ] Instalar dependencias de producción:
-  - `npm install express sqlite3 cors dotenv helmet`
+  - `pnpm add express sqlite3 cors dotenv helmet`
 - [ ] Configurar `tsconfig.json` para Node.js
 
 #### Paso 2: Crear estructura
@@ -62,7 +62,7 @@ backend/
 - [ ] Crear `src/app.ts` con configuración básica
 - [ ] Configurar middlewares: cors, helmet, express.json
 - [ ] Crear `src/index.ts` como punto de entrada
-- [ ] Añadir script `"dev": "nodemon src/index.ts"` en package.json
+- [ ] Añadir script `"dev": "pnpm nodemon src/index.ts"` en package.json
 - [ ] Probar que el servidor arranca
 
 #### Paso 4: Configurar SQLite
