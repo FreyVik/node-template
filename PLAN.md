@@ -43,12 +43,12 @@ backend/
 ### FASE 1: CONFIGURACIÓN INICIAL
 
 #### Paso 1: Inicializar proyecto
-- [ ] `pnpm init`
-- [ ] Instalar dependencias de desarrollo:
+- [x] `pnpm init`
+- [x] Instalar dependencias de desarrollo:
   - `pnpm add -D typescript @types/node @types/express nodemon ts-node`
-- [ ] Instalar dependencias de producción:
+- [x] Instalar dependencias de producción:
   - `pnpm add express sqlite3 cors dotenv helmet`
-- [ ] Configurar `tsconfig.json` para Node.js
+- [x] Configurar `tsconfig.json` para Node.js
 
 #### Paso 2: Crear estructura
 - [ ] Crear carpetas: `src/`, `data/`, `src/routes/`, `src/controllers/`, `src/models/`, `src/middleware/`
