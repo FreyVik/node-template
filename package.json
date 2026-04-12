@@ -5,6 +5,8 @@
 	"main": "dist/index.js",
 	"scripts": {
 		"dev": "nodemon src/index.ts",
+		"seed": "ts-node src/scripts/seed.ts",
+		"seed:reset": "ts-node src/scripts/seed-reset.ts",
 		"lint": "biome check .",
 		"lint:fix": "biome check . --write",
 		"format": "biome format . --write",
