@@ -16,18 +16,18 @@ backend/
 │   ├── index.ts           (punto de entrada del servidor)
 │   ├── app.ts            (configuración de Express)
 │   ├── routes/           (rutas API)
-│   │   ├── cuentas.ts
-│   │   ├── transacciones.ts
-│   │   └── categorias.ts
+│   │   ├── accounts.ts
+│   │   ├── transactions.ts
+│   │   └── categories.ts
 │   ├── controllers/       (lógica de negocio)
-│   │   ├── cuentasController.ts
-│   │   ├── transaccionesController.ts
-│   │   └── categoriasController.ts
+│   │   ├── accountsController.ts
+│   │   ├── transactionsController.ts
+│   │   └── categoriesController.ts
 │   ├── models/           (modelos de datos SQLite)
 │   │   ├── database.ts
-│   │   ├── Cuenta.ts
-│   │   ├── Transaccion.ts
-│   │   └── Categoria.ts
+│   │   ├── Account.ts
+│   │   ├── Transaction.ts
+│   │   └── Category.ts
 │   └── middleware/       (middlewares: CORS, logging, etc.)
 ├── data/                 (archivo .sqlite)
 ├── package.json
@@ -66,22 +66,22 @@ backend/
 - [x] Probar que el servidor arranca
 
 #### Paso 4: Configurar SQLite
-- [ ] Crear `src/models/database.ts`
-- [ ] Crear esquema con tablas:
-  - `cuentas` (id, nombre, tipo, saldo, moneda)
-  - `transacciones` (id, tipo, cantidad, categoria, fecha, cuentaId, nota)
-  - `categorias` (id, nombre, icono, color)
-- [ ] Verificar que el archivo .sqlite se crea correctamente
+- [x] Crear `src/models/database.ts`
+- [x] Crear esquema con tablas:
+  - `accounts` (id, name, type, balance, currency)
+  - `transactions` (id, type, amount, category, date, account_id, notes)
+  - `categories` (id, name, icon, color)
+- [x] Verificar que el archivo .sqlite se crea correctamente
 
 #### Paso 5: Crear modelos CRUD
-- [ ] `src/models/Cuenta.ts` - create, getAll, getById, update, delete
-- [ ] `src/models/Transaccion.ts` - create, getAll, getById, update, delete
-- [ ] `src/models/Categoria.ts` - create, getAll, getById, update, delete
+- [ ] `src/models/Account.ts` - create, getAll, getById, update, delete
+- [ ] `src/models/Transaction.ts` - create, getAll, getById, update, delete
+- [ ] `src/models/Category.ts` - create, getAll, getById, update, delete
 
 #### Paso 6: Crear rutas API
-- [ ] `src/routes/cuentas.ts` - GET/POST/PUT/DELETE /api/cuentas
-- [ ] `src/routes/transacciones.ts` - GET/POST/PUT/DELETE /api/transacciones
-- [ ] `src/routes/categorias.ts` - GET/POST/PUT/DELETE /api/categorias
+- [ ] `src/routes/accounts.ts` - GET/POST/PUT/DELETE /api/accounts
+- [ ] `src/routes/transactions.ts` - GET/POST/PUT/DELETE /api/transactions
+- [ ] `src/routes/categories.ts` - GET/POST/PUT/DELETE /api/categories
 
 #### Paso 7: Crear controladores
 - [ ] Conectar modelos con rutas
@@ -103,29 +103,29 @@ backend/
 ## 📝 ESQUEMA DE BASE DE DATOS
 
 ```sql
-CREATE TABLE cuentas (
+CREATE TABLE accounts (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  nombre TEXT NOT NULL,
-  tipo TEXT NOT NULL,
-  saldo REAL DEFAULT 0,
-  moneda TEXT DEFAULT 'EUR'
+  name TEXT NOT NULL,
+  type TEXT NOT NULL,
+  balance REAL DEFAULT 0,
+  currency TEXT DEFAULT 'EUR'
 );
 
-CREATE TABLE transacciones (
+CREATE TABLE transactions (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  tipo TEXT NOT NULL,
-  cantidad REAL NOT NULL,
-  categoria TEXT NOT NULL,
-  fecha TEXT NOT NULL,
-  cuentaId INTEGER,
-  nota TEXT,
-  FOREIGN KEY (cuentaId) REFERENCES cuentas(id)
+  type TEXT NOT NULL,
+  amount REAL NOT NULL,
+  category TEXT NOT NULL,
+  date TEXT NOT NULL,
+  account_id INTEGER,
+  notes TEXT,
+  FOREIGN KEY (account_id) REFERENCES accounts(id)
 );
 
-CREATE TABLE categorias (
+CREATE TABLE categories (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  nombre TEXT NOT NULL,
-  icono TEXT,
+  name TEXT NOT NULL,
+  icon TEXT,
   color TEXT
 );
 ```
@@ -136,21 +136,21 @@ CREATE TABLE categorias (
 
 | Método | Ruta | Descripción |
 |--------|------|-------------|
-| GET | /api/cuentas | Obtener todas las cuentas |
-| GET | /api/cuentas/:id | Obtener cuenta por ID |
-| POST | /api/cuentas | Crear cuenta |
-| PUT | /api/cuentas/:id | Actualizar cuenta |
-| DELETE | /api/cuentas/:id | Eliminar cuenta |
-| GET | /api/transacciones | Obtener todas las transacciones |
-| GET | /api/transacciones/:id | Obtener transacción por ID |
-| POST | /api/transacciones | Crear transacción |
-| PUT | /api/transacciones/:id | Actualizar transacción |
-| DELETE | /api/transacciones/:id | Eliminar transacción |
-| GET | /api/categorias | Obtener todas las categorías |
-| GET | /api/categorias/:id | Obtener categoría por ID |
-| POST | /api/categorias | Crear categoría |
-| PUT | /api/categorias/:id | Actualizar categoría |
-| DELETE | /api/categorias/:id | Eliminar categoría |
+| GET | /api/accounts | Obtener todas las cuentas |
+| GET | /api/accounts/:id | Obtener cuenta por ID |
+| POST | /api/accounts | Crear cuenta |
+| PUT | /api/accounts/:id | Actualizar cuenta |
+| DELETE | /api/accounts/:id | Eliminar cuenta |
+| GET | /api/transactions | Obtener todas las transacciones |
+| GET | /api/transactions/:id | Obtener transacción por ID |
+| POST | /api/transactions | Crear transacción |
+| PUT | /api/transactions/:id | Actualizar transacción |
+| DELETE | /api/transactions/:id | Eliminar transacción |
+| GET | /api/categories | Obtener todas las categorías |
+| GET | /api/categories/:id | Obtener categoría por ID |
+| POST | /api/categories | Crear categoría |
+| PUT | /api/categories/:id | Actualizar categoría |
+| DELETE | /api/categories/:id | Eliminar categoría |
 
 ---
 

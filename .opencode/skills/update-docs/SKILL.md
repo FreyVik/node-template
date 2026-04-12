@@ -26,6 +26,12 @@ El agente debe ejecutar esta skill cuando detecte:
 - Nuevos endpoints API creados
 - Checkboxes marcados en PLAN.md
 
+### Regla Obligatoria de Autoejecucion
+- Esta skill debe ejecutarse automaticamente al finalizar cualquier tarea con cambios relevantes, incluso si el usuario no la solicita.
+- No requiere invocacion manual previa del usuario.
+- Si hubo cambios que impacten AGENTS.md o PLAN.md, la ejecucion es obligatoria antes de cerrar la respuesta final.
+- Solo se omite si la tarea fue puramente conversacional (sin cambios de codigo ni documentacion).
+
 ## Proceso
 
 1. **Detectar rama actual** (backend o frontend)

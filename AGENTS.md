@@ -2,6 +2,19 @@
 
 ## Recent Updates
 
+## 2026-04-12
+
+### Added
+- SQLite bootstrap hardening in `src/models/database.ts` with async initialization, `PRAGMA foreign_keys = ON`, WAL mode, and busy timeout.
+- Centralized environment config in `src/config/env.ts`.
+- SQLite schema in English with tables: `accounts`, `transactions`, `categories`.
+- On-demand seed scripts added: `seed` and `seed:reset` using SQL query batches.
+- pnpm native build allowlist configured: `pnpm.onlyBuiltDependencies = ["sqlite3"]`.
+- Git ignore rules for SQLite generated files: `data/*.sqlite`, `data/*.sqlite-wal`, `data/*.sqlite-shm`.
+
+### Completed
+- [x] Phase 2 / Step 4: SQLite configuration and local database file creation verification.
+
 ## 2026-04-11
 
 ### Added
@@ -42,6 +55,8 @@ pnpm add -D typescript @types/node @types/express nodemon ts-node @biomejs/biome
 {
   "scripts": {
     "dev": "nodemon src/index.ts",
+    "seed": "ts-node src/scripts/seed.ts",
+    "seed:reset": "ts-node src/scripts/seed-reset.ts",
     "lint": "biome check .",
     "lint:fix": "biome check . --write",
     "format": "biome format . --write",
@@ -126,40 +141,40 @@ export default app;
 
 SQLite database is initialized in `src/models/database.ts`. The tables created are:
 
-- **cuentas**: id, nombre, tipo, saldo, moneda
-- **transacciones**: id, tipo, cantidad, categoria, fecha, cuentaId, nota
-- **categorias**: id, nombre, icono, color
+- **accounts**: id, name, type, balance, currency
+- **transactions**: id, type, amount, category, date, account_id, notes
+- **categories**: id, name, icon, color
 
 ---
 
 ## API Endpoints
 
-### Cuentas
+### Accounts
 | Method | Route | Description |
 |--------|------|-------------|
-| GET | /api/cuentas | Get all accounts |
-| GET | /api/cuentas/:id | Get account by ID |
-| POST | /api/cuentas | Create account |
-| PUT | /api/cuentas/:id | Update account |
-| DELETE | /api/cuentas/:id | Delete account |
+| GET | /api/accounts | Get all accounts |
+| GET | /api/accounts/:id | Get account by ID |
+| POST | /api/accounts | Create account |
+| PUT | /api/accounts/:id | Update account |
+| DELETE | /api/accounts/:id | Delete account |
 
-### Transacciones
+### Transactions
 | Method | Route | Description |
 |--------|------|-------------|
-| GET | /api/transacciones | Get all transactions |
-| GET | /api/transacciones/:id | Get transaction by ID |
-| POST | /api/transacciones | Create transaction |
-| PUT | /api/transacciones/:id | Update transaction |
-| DELETE | /api/transacciones/:id | Delete transaction |
+| GET | /api/transactions | Get all transactions |
+| GET | /api/transactions/:id | Get transaction by ID |
+| POST | /api/transactions | Create transaction |
+| PUT | /api/transactions/:id | Update transaction |
+| DELETE | /api/transactions/:id | Delete transaction |
 
-### Categorías
+### Categories
 | Method | Route | Description |
 |--------|------|-------------|
-| GET | /api/categorias | Get all categories |
-| GET | /api/categorias/:id | Get category by ID |
-| POST | /api/categorias | Create category |
-| PUT | /api/categorias/:id | Update category |
-| DELETE | /api/categorias/:id | Delete category |
+| GET | /api/categories | Get all categories |
+| GET | /api/categories/:id | Get category by ID |
+| POST | /api/categories | Create category |
+| PUT | /api/categories/:id | Update category |
+| DELETE | /api/categories/:id | Delete category |
 
 ---
 
@@ -183,6 +198,7 @@ The server listens on the port defined in `process.env.PORT` (default 4000).
 Create `.env` file:
 ```
 PORT=4000
+DATABASE_PATH=./data/freyr_finances.sqlite
 ```
 
 ---
@@ -192,3 +208,4 @@ PORT=4000
 - Database is automatically created in the `data/` folder
 - No authentication - it's a local application
 - Frontend connects to `http://localhost:4000/api`
+- Seed data is executed manually using `pnpm seed` and `pnpm seed:reset`
