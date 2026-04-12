@@ -1,0 +1,27 @@
+export const SCHEMA_SQL = `
+CREATE TABLE IF NOT EXISTS accounts (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    type TEXT NOT NULL,
+    balance REAL DEFAULT 0,
+    currency TEXT DEFAULT 'EUR'
+);
+
+CREATE TABLE IF NOT EXISTS category (
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	name TEXT NOT NULL,
+	icon TEXT,
+	color TEXT
+);
+
+CREATE TABLE IF NOT EXISTS transactions (
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	type TEXT NOT NULL,
+	amount REAL NOT NULL,
+	category TEXT NOT NULL,
+	date TEXT NOT NULL,
+	account_id INTEGER,
+	notes TEXT,
+	FOREIGN KEY (account_id) REFERENCES accounts(id)
+);
+`;

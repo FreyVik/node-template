@@ -1,8 +1,28 @@
 import app from "./app";
+import { env } from "./config/env";
+import { closeDatabase, initializeDatabase } from "./models/database";
 
-const PORT = process.env.PORT || 4000;
+async function bootstrap() {
+	try {
+		await initializeDatabase();
+		app.listen(env.PORT, () => {
+			console.log(`Server running on port ${env.PORT}`);
+			console.log(`Health: http://localhost:${env.PORT}/api/health`);
+		});
+	} catch (error) {
+		console.error("Failed to start application:", error);
+		process.exit(1);
+	}
+}
 
-app.listen(PORT, () => {
-	console.log(`Server is running on port ${PORT}`);
-	console.log(`API is available at http://localhost:${PORT}/api/health`);
+void bootstrap();
+
+process.on("SIGINT", async () => {
+	await closeDatabase();
+	process.exit(0);
+});
+
+process.on("SIGTERM", async () => {
+	await closeDatabase();
+	process.exit(0);
 });

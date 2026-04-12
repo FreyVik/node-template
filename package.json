@@ -15,6 +15,11 @@
 	"author": "",
 	"license": "ISC",
 	"packageManager": "pnpm@10.33.0",
+	"pnpm": {
+		"onlyBuiltDependencies": [
+			"sqlite3"
+		]
+	},
 	"dependencies": {
 		"cors": "^2.8.5",
 		"dotenv": "^16.4.0",
