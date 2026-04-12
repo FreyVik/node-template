@@ -59,11 +59,11 @@ backend/
 ### FASE 2: BACKEND
 
 #### Paso 3: Crear servidor Express
-- [ ] Crear `src/app.ts` con configuración básica
-- [ ] Configurar middlewares: cors, helmet, express.json
-- [ ] Crear `src/index.ts` como punto de entrada
-- [ ] Añadir script `"dev": "pnpm nodemon src/index.ts"` en package.json
-- [ ] Probar que el servidor arranca
+- [x] Crear `src/app.ts` con configuración básica
+- [x] Configurar middlewares: cors, helmet, express.json
+- [x] Crear `src/index.ts` como punto de entrada
+- [x] Añadir script `"dev": "pnpm nodemon src/index.ts"` en package.json
+- [x] Probar que el servidor arranca
 
 #### Paso 4: Configurar SQLite
 - [ ] Crear `src/models/database.ts`
