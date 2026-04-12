@@ -1,7 +1,7 @@
 import { mkdir } from "node:fs/promises";
 import path from "node:path";
 import sqlite3 from "sqlite3";
-import { env } from "../config/env";
+import { env } from "../../../shared/config/env";
 import { SCHEMA_SQL } from "./schema";
 
 let db: sqlite3.Database | null = null;

@@ -1,10 +1,7 @@
 import cors from "cors";
-import dotenv from "dotenv";
 import express from "express";
 import helmet from "helmet";
-import { registerRoutes } from "./routes";
-
-dotenv.config();
+import { registerRoutes } from "./register-routes";
 
 const app: express.Express = express();
 

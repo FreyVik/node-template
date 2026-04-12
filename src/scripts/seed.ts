@@ -2,7 +2,7 @@ import {
 	closeDatabase,
 	getDatabase,
 	initializeDatabase,
-} from "../models/database";
+} from "../infrastructure/persistence/sqlite/database";
 import { SEED_SQL } from "./seed-queries";
 
 function execAsync(

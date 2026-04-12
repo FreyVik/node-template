@@ -1,6 +1,6 @@
 import type { Express } from "express";
-import infoRouter from "./info";
+import summaryRouter from "./routes/summary";
 
 export function registerRoutes(app: Express): void {
-	app.use("/api/info", infoRouter);
+	app.use("/api/info/summary", summaryRouter);
 }

@@ -1,9 +1,9 @@
-import { env } from "../config/env";
 import {
 	closeDatabase,
 	getDatabase,
 	initializeDatabase,
-} from "../models/database";
+} from "../infrastructure/persistence/sqlite/database";
+import { env } from "../shared/config/env";
 import { SEED_SQL } from "./seed-queries";
 
 const RESET_SQL = `

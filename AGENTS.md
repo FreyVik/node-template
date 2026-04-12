@@ -5,15 +5,18 @@
 ## 2026-04-12
 
 ### Added
-- SQLite bootstrap hardening in `src/models/database.ts` with async initialization, `PRAGMA foreign_keys = ON`, WAL mode, and busy timeout.
-- Centralized environment config in `src/config/env.ts`.
+- SQLite bootstrap hardening in `src/infrastructure/persistence/sqlite/database.ts` with async initialization, `PRAGMA foreign_keys = ON`, WAL mode, and busy timeout.
+- Centralized environment config in `src/shared/config/env.ts`.
 - SQLite schema in English with tables: `accounts`, `transactions`, `categories`.
 - On-demand seed scripts added: `seed` and `seed:reset` using SQL query batches.
 - pnpm native build allowlist configured: `pnpm.onlyBuiltDependencies = ["sqlite3"]`.
 - Git ignore rules for SQLite generated files: `data/*.sqlite`, `data/*.sqlite-wal`, `data/*.sqlite-shm`.
+- Global-layer architecture base aligned for hexagonal growth: `src/domain`, `src/application`, `src/interfaces`, `src/infrastructure`, `src/shared`.
+- HTTP adapter moved to `src/interfaces/http/*` and SQLite adapter moved to `src/infrastructure/persistence/sqlite/*`.
 
 ### Completed
 - [x] Phase 2 / Step 4: SQLite configuration and local database file creation verification.
+- [x] Architecture refactor: removed legacy `src/models`/`src/routes` flow and standardized imports to global layers.
 
 ## 2026-04-11
 
@@ -73,12 +76,16 @@ pnpm add -D typescript @types/node @types/express nodemon ts-node @biomejs/biome
 ```
 backend/
 ├── src/
-│   ├── index.ts           (entry point)
-│   ├── app.ts            (Express configuration)
-│   ├── routes/           (API routes)
-│   ├── controllers/      (business logic)
-│   ├── models/           (SQLite data models)
-│   └── middleware/       (middlewares)
+│   ├── index.ts                      (application bootstrap)
+│   ├── domain/                       (domain entities and contracts)
+│   ├── application/                  (use cases)
+│   ├── interfaces/
+│   │   └── http/                     (Express app and route adapters)
+│   ├── infrastructure/
+│   │   └── persistence/sqlite/       (SQLite adapter and schema)
+│   ├── shared/
+│   │   └── config/                   (environment config)
+│   └── scripts/                      (seed and maintenance scripts)
 ├── data/                 (.sqlite file)
 ├── package.json
 ├── tsconfig.json
@@ -116,15 +123,12 @@ backend/
 
 ## Middlewares
 
-Middlewares are configured in `src/app.ts`:
+Middlewares are configured in `src/interfaces/http/app.ts`:
 
 ```typescript
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
-import dotenv from 'dotenv';
-
-dotenv.config();
 
 const app = express();
 
@@ -139,7 +143,7 @@ export default app;
 
 ## Database
 
-SQLite database is initialized in `src/models/database.ts`. The tables created are:
+SQLite database is initialized in `src/infrastructure/persistence/sqlite/database.ts`. The tables created are:
 
 - **accounts**: id, name, type, balance, currency
 - **transactions**: id, type, amount, category, date, account_id, notes

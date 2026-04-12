@@ -13,22 +13,16 @@
 ```
 backend/
 ├── src/
-│   ├── index.ts           (punto de entrada del servidor)
-│   ├── app.ts            (configuración de Express)
-│   ├── routes/           (rutas API)
-│   │   ├── accounts.ts
-│   │   ├── transactions.ts
-│   │   └── categories.ts
-│   ├── controllers/       (lógica de negocio)
-│   │   ├── accountsController.ts
-│   │   ├── transactionsController.ts
-│   │   └── categoriesController.ts
-│   ├── models/           (modelos de datos SQLite)
-│   │   ├── database.ts
-│   │   ├── Account.ts
-│   │   ├── Transaction.ts
-│   │   └── Category.ts
-│   └── middleware/       (middlewares: CORS, logging, etc.)
+│   ├── index.ts                      (punto de entrada del servidor)
+│   ├── domain/                       (entidades y contratos de dominio)
+│   ├── application/                  (casos de uso)
+│   ├── interfaces/
+│   │   └── http/                     (adaptador HTTP: app, rutas, handlers)
+│   ├── infrastructure/
+│   │   └── persistence/sqlite/       (adaptador SQLite: database y schema)
+│   ├── shared/
+│   │   └── config/                   (configuracion de entorno)
+│   └── scripts/                      (seed y scripts de mantenimiento)
 ├── data/                 (archivo .sqlite)
 ├── package.json
 ├── tsconfig.json
@@ -51,7 +45,7 @@ backend/
 - [x] Configurar `tsconfig.json` para Node.js
 
 #### Paso 2: Crear estructura
-- [x] Crear carpetas: `src/`, `data/`, `src/routes/`, `src/controllers/`, `src/models/`, `src/middleware/`
+- [x] Crear carpetas base: `src/`, `data/`, `src/domain/`, `src/application/`, `src/interfaces/http/`, `src/infrastructure/persistence/sqlite/`, `src/shared/config/`, `src/scripts/`
 - [x] Crear `.env.example` con `PORT=4000`
 
 ---
@@ -59,33 +53,34 @@ backend/
 ### FASE 2: BACKEND
 
 #### Paso 3: Crear servidor Express
-- [x] Crear `src/app.ts` con configuración básica
+- [x] Crear `src/interfaces/http/app.ts` con configuración básica
 - [x] Configurar middlewares: cors, helmet, express.json
 - [x] Crear `src/index.ts` como punto de entrada
 - [x] Añadir script `"dev": "pnpm nodemon src/index.ts"` en package.json
 - [x] Probar que el servidor arranca
 
 #### Paso 4: Configurar SQLite
-- [x] Crear `src/models/database.ts`
+- [x] Crear `src/infrastructure/persistence/sqlite/database.ts`
 - [x] Crear esquema con tablas:
   - `accounts` (id, name, type, balance, currency)
   - `transactions` (id, type, amount, category, date, account_id, notes)
   - `categories` (id, name, icon, color)
 - [x] Verificar que el archivo .sqlite se crea correctamente
 
-#### Paso 5: Crear modelos CRUD
-- [ ] `src/models/Account.ts` - create, getAll, getById, update, delete
-- [ ] `src/models/Transaction.ts` - create, getAll, getById, update, delete
-- [ ] `src/models/Category.ts` - create, getAll, getById, update, delete
+#### Paso 5: Definir dominio y puertos
+- [ ] Crear entidades/value objects en `src/domain/` (`Account`, `Transaction`, `Category`, `Money`)
+- [ ] Crear contratos de repositorio en `src/domain/` (ports)
+- [ ] Definir invariantes y reglas de negocio basicas
 
-#### Paso 6: Crear rutas API
-- [ ] `src/routes/accounts.ts` - GET/POST/PUT/DELETE /api/accounts
-- [ ] `src/routes/transactions.ts` - GET/POST/PUT/DELETE /api/transactions
-- [ ] `src/routes/categories.ts` - GET/POST/PUT/DELETE /api/categories
+#### Paso 6: Implementar casos de uso (application)
+- [ ] Crear casos de uso CRUD en `src/application/` para cuentas, transacciones y categorias
+- [ ] Separar DTOs/input-output de los modelos de dominio
+- [ ] Conectar casos de uso con puertos de dominio
 
-#### Paso 7: Crear controladores
-- [ ] Conectar modelos con rutas
-- [ ] Añadir validación básica
+#### Paso 7: Adaptadores HTTP e infraestructura
+- [ ] Crear handlers/rutas en `src/interfaces/http/` para `/api/accounts`, `/api/transactions`, `/api/categories`
+- [ ] Implementar repositorios SQLite en `src/infrastructure/persistence/sqlite/` que cumplan los puertos
+- [ ] Añadir validacion basica de input y manejo de errores HTTP
 
 #### Paso 8: Probar API
 - [ ] Probar endpoints con curl, Postman o Thunder Client

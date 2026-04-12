@@ -1,6 +1,9 @@
-import app from "./app";
-import { env } from "./config/env";
-import { closeDatabase, initializeDatabase } from "./models/database";
+import {
+	closeDatabase,
+	initializeDatabase,
+} from "./infrastructure/persistence/sqlite/database";
+import app from "./interfaces/http/app";
+import { env } from "./shared/config/env";
 
 async function bootstrap() {
 	try {
